@@ -7,10 +7,10 @@ We'll use llvm and pnacl.
 Reading:
 --------
 
- * The llvm tutorial: http://llvm.org/docs/tutorial/index.html
- * The nacl tutorial: https://developers.google.com/native-client/devguide/tutorial#next 
- * A simple nacl extension: http://stackoverflow.com/questions/10335284/adding-nacl-in-an-chrome-extension 
- * The pnacl getting-started guide: http://www.chromium.org/nativeclient/pnacl/building-and-testing-portable-native-client
+ * The llvm tutorial: <http://llvm.org/docs/tutorial/index.html>
+ * The nacl tutorial: <https://developers.google.com/native-client/devguide/tutorial#next>
+ * A simple nacl extension: <http://stackoverflow.com/questions/10335284/adding-nacl-in-an-chrome-extension>
+ * The pnacl getting-started guide: <http://www.chromium.org/nativeclient/pnacl/building-and-testing-portable-native-client>
 
 Other notes:
 ------------
@@ -21,10 +21,11 @@ To get chrome 30 in ubuntu, you need the [google-chrome ppa][2]
 
 A fixed chromium bug enabling use of nacl in plugins:
 
- * https://code.google.com/p/nativeclient/issues/detail?id=439
- * http://code.google.com/p/nativeclient/source/detail?r=2232
+ * <https://code.google.com/p/nativeclient/issues/detail?id=439>
+ * <http://code.google.com/p/nativeclient/source/detail?r=2232>
 
 [1]: https://chrome.google.com/webstore/detail/pnacl-examples/mblemkccghnfkjignlmgngmopopifacf
+[2]: http://www.ubuntuupdates.org/ppa/google_chrome
 
 
 Problems and Solutions
