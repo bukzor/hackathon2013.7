@@ -1,3 +1,7 @@
+# Build products
+README.html
+
+#### Standard ignores
 *.py[cod]
 
 # vim
