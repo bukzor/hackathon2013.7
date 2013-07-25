@@ -1,2 +1,8 @@
 !bin
 node_modules
+temp
+.tmp
+dist
+.sass-cache
+app/bower_components
+.DS_Store
