@@ -44,14 +44,17 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                hostname: 'localhost',
+                // Useful to debug script path problems
+                // https://github.com/gruntjs/grunt-contrib-connect
+                //keepalive: true
             },
             test: {
                 options: {
                     middleware: function (connect) {
                         return [
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'test')
+                            mountFolder(connect, 'test'),
+                            mountFolder(connect, 'app')
                         ];
                     }
                 }

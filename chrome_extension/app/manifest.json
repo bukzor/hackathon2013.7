@@ -26,6 +26,7 @@
         "styles/main.css"
       ],
       "js": [
+        "scripts/lexer.js",
         "scripts/contentscript.js"
       ],
       "run_at": "document_end",
