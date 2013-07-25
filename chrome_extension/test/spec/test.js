@@ -9,8 +9,12 @@
     });
 
     describe('Lexer', function() {
-        it('is included in the test suite', function() {
-            assert.equal("I'm here", lexer);
-        })
+        it('Returns empty token list for silly values', function() {
+            assert.deepEqual([], lexer.parse(undefined));
+            assert.deepEqual([], lexer.parse(null));
+            assert.deepEqual([], lexer.parse(0));
+            assert.deepEqual([], lexer.parse(''));
+            assert.deepEqual([], lexer.parse(/regex/));
+        });
     });
 })();
