@@ -7,5 +7,6 @@ fi
 _SCRIPT=$(readlink -f ${BASH_SOURCE[0]})
 _HERE=$(dirname $_SCRIPT)
 export PATH=$_HERE/bin:$PATH
+export GEM_HOME=$_HERE/gem
 
 unset _SCRIPT _HERE
