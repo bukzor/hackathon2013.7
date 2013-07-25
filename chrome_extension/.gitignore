@@ -1,10 +1,14 @@
 !bin
 !lib
+gem
 
+# Mac being dumb
+.DS_Store
+
+# Standard ignores, from generator-chrome-extension
 node_modules
 temp
 .tmp
 dist
 .sass-cache
 app/bower_components
-.DS_Store
