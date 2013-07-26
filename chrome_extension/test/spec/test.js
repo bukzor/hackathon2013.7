@@ -58,6 +58,53 @@
             assert.equal(1, bogolisp.interpret('1'));
             assert.equal(1.5, bogolisp.interpret('1.5'));
         });
+        it('Can comment', function(){
+            assert.equal(undefined, bogolisp.interpret(['#', 'foo', 1]));
+        })
+        it('Can assign var', function(){
+            var scope = {};
+            assert.equal(undefined, bogolisp.interpret(['=', 'foo', 1], scope));
+            assert.equal(1, scope['foo']);
+        })
+        it('Can lookup properties by name (dots)', function(){
+            var scope = { x: { y: 3 } };
+            assert.equal(3, bogolisp.interpret(['.', 'x', 'y'], scope));
+        })
+        it('Can lookup properties by value (brackets)', function(){
+            var scope = { x: { z: 3 }, y: 'z' };
+            assert.equal(3, bogolisp.interpret(['[]', 'x', 'y'], scope));
+        })
+        it('Can concatenate strings', function(){
+            assert.equal('foobar', bogolisp.interpret(['+', ['quote', 'foo'], ['quote', 'bar']], scope));
+        })
+        it('Can assign properties by name (dots)', function(){
+            var scope = { x: { y: 0 } };
+            assert.equal(3, bogolisp.interpret(['=', ['.', 'x', 'y'], '3'], scope));
+            assert.equal(3, scope.x.y);
+        })
+        it('Can assign properties by value (brackets)', function(){
+            var scope = { x: { y: 0 }, z: 'y' };
+            assert.equal(3, bogolisp.interpret(['=', ['[]', 'x', 'z'], '3'], scope));
+            assert.equal(3, scope.x.y);
+        })
+        it('Can define function', function(){
+            var scope = {};
+            assert.equal(undefined, bogolisp.interpret(['function', 'foo', 1], scope));
+
+            var foo = scope.foo;
+            delete scope.foo;
+            assert.deepEqual(['function', 'foo', 1, scope], foo);
+        })
+        it('Can call function', function(){
+            var scope = { x:3 };
+            scope.foo = ['function', 'foo', '1', scope]
+            scope.bar = ['function', 'bar', 'x', scope]
+            scope.fuz = ['function', 'fuz', 'x', 'x', scope]
+
+            assert.equal(1, bogolisp.interpret(['foo'], scope));
+            assert.equal(3, bogolisp.interpret(['bar'], scope));
+            assert.equal(4, bogolisp.interpret(['fuz', '4'], scope));
+        })
         it('Can string', function() {
             assert.equal('1', bogolisp.interpret(['quote', '1']));
             assert.equal('(', bogolisp.interpret(['quote', '(']));
