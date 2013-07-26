@@ -2,8 +2,8 @@
 'use strict';
 
 (function () {
-    describe('Verify that our testing setup works properly', function () {
-        it('should run a chai assertion here', function () {
+    describe('Testing Setup', function () {
+        it('Runs Chai Assertions', function () {
             assert.equal(-1, [1,2,3].indexOf(4));
         });
     });
