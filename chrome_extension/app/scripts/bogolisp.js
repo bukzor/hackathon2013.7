@@ -50,10 +50,22 @@ bogolisp.lex = function(str) {
  * Takes a list of tokens and return a (abstract?) syntax tree
  */
 bogolisp.parse = function(tokens) {
-    var i, tree=[];
+    var i,
+        frames = [],
+        tree = [];
 
     for (i=0; i < tokens.length; i++) {
-        // TODO
+        var token = tokens[i];
+        if ( token === '(' ) {
+            frames.push(tree);
+            tree = [];
+        } else if ( token === ')' ) {
+            token = tree;
+            tree = frames.pop();
+            tree.push(token);
+        } else {
+            tree.push(token);
+        }
     }
 
     return tree;

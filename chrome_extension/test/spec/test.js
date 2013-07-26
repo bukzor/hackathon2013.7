@@ -29,5 +29,17 @@
         it('Parses Empty list', function() {
             assert.deepEqual([], bogolisp.parse([]));
         });
+        it('Parses print statement', function() {
+            assert.deepEqual(
+                [['print', ['+', '1', '2']]],
+                bogolisp.parse(['(', 'print', '(', '+', '1', '2', ')', ')'])
+            );
+        });
+        it('Parses nested stuff', function() {
+            assert.deepEqual(
+                [[[[],[]]]],
+                bogolisp.parse(['(', '(', '(', ')', '(', ')', ')', ')'])
+            );
+        });
     });
 })();
