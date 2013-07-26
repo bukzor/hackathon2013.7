@@ -106,4 +106,75 @@
             );
         });
     });
+
+    describe('Lang Plugin', function() {
+        /**
+         * Small helper function to create <script> elements
+         */
+        var createScriptWithMimeAndContent = function(mime, content) {
+            var script = document.createElement('script');
+            script.type = mime;
+            script.text = content;
+            return script;
+        };
+
+        var assertElementEqual = function(expected, actual) {
+            assert.equal(expected.outerHTML, actual.outerHTML);
+        };
+
+        describe('LangPlugin\'s runLang', function() {
+            it('Is called properly', function() {
+                var container = document.createElement('div');
+                container.innerHTML = '<script type="mymime">woo</script>';
+
+                /*
+                var run = sinon.spy();
+                langPlugin.runLang('mymime', run, container);
+                sinon.assert.calledWith(run, 'woo');
+                */
+            });
+        });
+
+        describe('LangPlugin\'s getScriptsForMimeType', function() {
+            it('Spots the scripts', function() {
+                var container = document.createElement('div');
+                container.innerHTML = [
+                    '<div>',
+                        '<script type="mymime">my script</script>',
+                        '<p>blabla</p>',
+                        '<script type="notmymime">not parsed</script>',
+                        '<marquee>',
+                            '<script type="mymime">rocks</script>',
+                        '</marquee>',
+                    '</div>'
+                ].join('');
+
+                var firstExpectedScript = createScriptWithMimeAndContent('mymime', 'my script');
+                var secondExpectedScript = createScriptWithMimeAndContent('mymime', 'rocks');
+
+                var actualScripts = langPlugin.getScriptsForMimeType('mymime', container);
+                assertElementEqual(firstExpectedScript, actualScripts[0]);
+                assertElementEqual(secondExpectedScript, actualScripts[1]);
+            });
+        });
+
+        describe('LangPlugin\'s getScriptText', function() {
+            it('Can load inline script', function() {
+                assert.equal(
+                    'you win',
+                    langPlugin.getScriptText(createScriptWithMimeAndContent('mymime', 'you win'))
+                );
+            });
+
+            it('Can load remote script', function() {
+                var script = document.createElement('script');
+                script.src = 'data/bogobogo.bl';
+
+                assert.equal(
+                    'bogo bogo\n',
+                    langPlugin.getScriptText(script)
+                );
+            });
+        });
+    });
 })();

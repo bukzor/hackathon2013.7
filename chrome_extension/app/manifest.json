@@ -27,6 +27,7 @@
       ],
       "js": [
         "scripts/bogolisp.js",
+        "scripts/lang_plugin.js",
         "scripts/contentscript.js"
       ],
       "run_at": "document_end",
