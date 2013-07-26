@@ -1,0 +1,6 @@
+(# wat wat)
+(var left 0)
+(function frame (obj) (
+    (= (. obj style left) (+ left 'px')) (# show frame)
+))
+(frame (obj style (obj left ())))
