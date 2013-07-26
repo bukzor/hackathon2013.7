@@ -40,23 +40,23 @@ module.exports = function (grunt) {
                 tasks: ['compass:server']
             }
         },
+        // https://github.com/gruntjs/grunt-contrib-connect
         connect: {
             options: {
                 port: 9000,
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: 'localhost',
-                // Useful to debug script path problems
-                // https://github.com/gruntjs/grunt-contrib-connect
-                // keepalive: true
+                middleware: function (connect) {
+                    return [
+                        mountFolder(connect, 'test'),
+                        mountFolder(connect, 'app')
+                    ];
+                }
             },
-            test: {
+            test: {},
+            keepalive: {
                 options: {
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, 'test'),
-                            mountFolder(connect, 'app')
-                        ];
-                    }
+                    keepalive: true
                 }
             }
         },
