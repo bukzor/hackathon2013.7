@@ -122,6 +122,6 @@ bogolisp.interpret = function(statement) {
 /**
  * Takes a bogolisp script and evaluate it.
  */
-bogolisp.run = function(script) {
+bogolisp.eval = function(script) {
     return bogolisp.interpret(bogolisp.parse(bogolisp.lex(script)));
 };

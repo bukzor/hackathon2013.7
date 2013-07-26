@@ -127,11 +127,9 @@
                 var container = document.createElement('div');
                 container.innerHTML = '<script type="mymime">woo</script>';
 
-                /*
                 var run = sinon.spy();
-                langPlugin.runLang('mymime', run, container);
+                langPlugin.runLang(run, 'mymime', container);
                 sinon.assert.calledWith(run, 'woo');
-                */
             });
         });
 
