@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "hackalang",
+    "message": "bogolisp",
     "description": "The name of the application"
   },
   "appDescription": {
-    "message": "Interpreter for application/x-hackalang scripts",
+    "message": "Interpreter for application/x-bogolisp scripts",
     "description": "The description of the application"
   }
 }

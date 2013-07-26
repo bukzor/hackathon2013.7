@@ -47,7 +47,7 @@ module.exports = function (grunt) {
                 hostname: 'localhost',
                 // Useful to debug script path problems
                 // https://github.com/gruntjs/grunt-contrib-connect
-                keepalive: true
+                // keepalive: true
             },
             test: {
                 options: {
@@ -262,7 +262,7 @@ module.exports = function (grunt) {
         compress: {
             dist: {
                 options: {
-                    archive: 'package/hackalang.zip'
+                    archive: 'package/bogolisp.zip'
                 },
                 files: [{
                     expand: true,

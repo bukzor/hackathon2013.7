@@ -2,8 +2,8 @@ We did this:
 
     npm install generator-chrome-extension
     yo chrome-extension
-    [?] What would you like to call this extension? hackalang
-    [?] How would you like to describe this extension? Interpreter for application/hackalang scripts
+    [?] What would you like to call this extension? bogolisp
+    [?] How would you like to describe this extension? Interpreter for application/bogolisp scripts
     [?] Would you like to use UI Action? No
     [?] Would you like to use the Options Page? Yes
     [?] Would you like to use the Omnibox? (Please input keyword) no
