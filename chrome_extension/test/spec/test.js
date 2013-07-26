@@ -164,6 +164,22 @@
         });
     });
 
+    describe('Bogolisp\'s References', function() {
+        var assertGoodReference = function(r) {
+            assert.instanceOf(r, bogolisp.Reference);
+            assert.equal(1, r.identifier);
+            assert.equal(2, r.scope);
+        };
+        it('Can construct', function(){
+            var r = new bogolisp.Reference(1, 2);
+            assertGoodReference(r);
+        });
+        it('Can construct without new', function(){
+            var r = bogolisp.Reference(1, 2);
+            assertGoodReference(r);
+        });
+    });
+
     describe('Lang Plugin', function() {
         /**
          * Small helper function to create <script> elements

@@ -71,17 +71,49 @@ bogolisp.parse = function(tokens) {
     return tree;
 };
 
+bogolisp.Reference = function(identifier, scope) {
+    if ( ! (this instanceof bogolisp.Reference) ) {
+        return new bogolisp.Reference(identifier, scope)
+    }
+    this.scope = scope;
+    this.identifier = identifier;
+}
+
+bogolisp.Reference.prototype.assign = function(value){
+    this.scope[this.identifier] = value;
+    return value
+}
+
+bogolisp.Reference.prototype.value = function(){
+    var result = this.scope && this.scope[this.identifier]
+    if ( result === undefined ) {
+        throw new Error("unknown identifier: '" + identifier + "'");
+    } else {
+        return result;
+    }
+}
+
 /**
  * Takes a statement (as a syntax tree) and executes it.
  */
 bogolisp.interpret = function(statement, scope) {
-    var i, operator, operands, result;
+    var result = bogolisp.interpret2(statement, scope);
+    if (result instanceof bogolisp.Reference) {
+        return result.value();
+    } else {
+        return result;
+    }
+};
+
+
+bogolisp.interpret2 = function(statement, scope) {
+    var i, operator, operands, result, tmp;
 
     // Numeric values.
     if (statement.constructor === String) {
         result = Number(statement);
         if ( isNaN(result) ) {
-            throw new Error("unknown identifier: '" + statement + "'");
+            return bogolisp.Reference(statement, scope);
         } else {
             return result;
         };
@@ -96,14 +128,18 @@ bogolisp.interpret = function(statement, scope) {
     } else if (operator === 'list') {
         return operands;
     } else if (operator === '=') {
-        for (i=0; i<operands.length; i++) {
+        for (i=0; i<operands.length; i=i+2) {
+            tmp = bogolisp.interpret2(operands[i], scope)
+            if ( ! (tmp instanceof bogolisp.Reference)) {
+                // TODO: assert
+                throw new Error('Cannot assign to a value: ' + tmp)
+            };
             result = operands[i+1];
             if (result === undefined) {
                 throw new Error("Wrong number of arguments to assignment: " + operands.length);
-            }
+            };
             result = bogolisp.interpret(result);
-            scope[operands[i]] = result;
-            i = i + 1;
+            tmp.assign(result);
         };
         return result;
     } else if (operator === 'function') {
@@ -111,15 +147,18 @@ bogolisp.interpret = function(statement, scope) {
         scope[operands[0]].push(scope);
         return operands[0]; // to make IIFE work correctly
     } else if (operator === '.') {
-        result = scope[operands[0]];
+        result = bogolisp.Reference(operands[0], scope);
         for (i=1; i<operands.length; i++) {
-            result = result[operands[i]];
+            result = bogolisp.Reference(operands[i], result.value());
         };
         return result
     } else if (operator === '[]') {
-        result = scope[operands[0]];
+        result = bogolisp.Reference(operands[0], scope);
         for (i=1; i<operands.length; i++) {
-            result = result[scope[operands[i]]];
+            result = bogolisp.Reference(
+                    scope[operands[i]],
+                    result.value()
+            );
         };
         return result
     }
@@ -134,7 +173,6 @@ bogolisp.interpret = function(statement, scope) {
     // More operators.
     if (operator === 'eval') {
         result = operands[operands.length-1];
-
     } else if (operator === '+') {
         var result = operands[0];
         for (i=1; i<operands.length; i++) {
@@ -152,6 +190,7 @@ bogolisp.interpret = function(statement, scope) {
 
     return result;
 };
+
 
 /**
  * Takes a bogolisp script and evaluate it.
