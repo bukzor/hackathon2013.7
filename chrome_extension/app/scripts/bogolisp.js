@@ -110,15 +110,27 @@ bogolisp.interpret = function(statement, scope) {
         scope[operands[0]]  = statement.slice(0);
         scope[operands[0]].push(scope);
         return operands[0]; // to make IIFE work correctly
+    } else if (operator === '.') {
+        result = scope[operands[0]];
+        for (i=1; i<operands.length; i++) {
+            result = result[operands[i]];
+        };
+        return result
+    } else if (operator === '[]') {
+        result = scope[operands[0]];
+        for (i=1; i<operands.length; i++) {
+            result = result[scope[operands[i]]];
+        };
+        return result
     }
 
 
     // All other operators interpret their operands.
-
     for (i=0; i < operands.length; i++) {
         operands[i] = bogolisp.interpret(operands[i]);
     }
 
+   
     // More operators.
     if (operator === 'eval') {
         result = operands[operands.length-1];
