@@ -78,6 +78,11 @@
         it('Can add (2)', function() {
             assert.equal(6, bogolisp.interpret(['+', '1', ['+', '2', '3']]));
         });
-
+        it('Can log', sinon.test(function() {
+            var consoleStub = this.stub(console, 'log');
+            assert.equal(undefined, bogolisp.interpret(['log', 'foo', 'bar']));
+            consoleStub.firstCall.calledWith('foo')
+            consoleStub.secondCall.calledWith('bar')
+        }));
     });
 })();

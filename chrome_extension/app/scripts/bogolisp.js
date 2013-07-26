@@ -98,6 +98,10 @@ bogolisp.interpret = function(statement) {
         for (j=0; j<operands.length; j++) {
             result += bogolisp.interpret(operands[j]);
         }
+    } else if (operator === 'log') {
+        for (j=0; j<operands.length; j++) {
+            console.log(operands[j]);
+        }
     } else {
         debugger;
         throw new Error("unknown operator: '" + operator + "'");
