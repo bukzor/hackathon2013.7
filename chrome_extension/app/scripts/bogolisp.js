@@ -106,6 +106,10 @@ bogolisp.interpret = function(statement, scope) {
             i = i + 1;
         };
         return result;
+    } else if (operator === 'function') {
+        scope[operands[0]]  = statement.slice(0);
+        scope[operands[0]].push(scope);
+        return operands[0]; // to make IIFE work correctly
     }
 
 

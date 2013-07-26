@@ -96,7 +96,7 @@
         })
         it('Can define function', function(){
             var scope = {};
-            assert.equal(undefined, bogolisp.interpret(['function', 'foo', 1], scope));
+            assert.equal('foo', bogolisp.interpret(['function', 'foo', 1], scope));
 
             var foo = scope.foo;
             delete scope.foo;
