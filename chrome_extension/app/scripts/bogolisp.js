@@ -75,37 +75,53 @@ bogolisp.parse = function(tokens) {
  * Takes a statement (as a syntax tree) and executes it.
  */
 bogolisp.interpret = function(statement) {
-    var j, operator, operands, result;
+    var i, operator, operands, result;
 
+    // Numeric values.
     if (statement.constructor === String) {
-        return Number(statement);
+        result = Number(statement);
+        if ( isNaN(result) ) {
+            throw new Error("unknown identifier: '" + statement + "'");
+        } else {
+            return result;
+        };
     }
 
     operator = statement[0];
     operands = statement.slice(1);
     if (operator === undefined) {
         return undefined;
-    } else if (operator === 'eval') {
-        for (j=0; j<operands.length; j++) {
-            result = bogolisp.interpret(operands[j]);
-        }
     } else if (operator === 'quote') {
-        result = operands[operands.length-1];
+        return operands[operands.length-1];
     } else if (operator === 'list') {
-        result = operands;
+        return operands;
+    }
+
+    // All other operators interpret their operands.
+    for (i=0; i<operands.length; i++) {
+        operands[i] = bogolisp.interpret(operands[i]);
+    }
+    if (operator === 'eval') {
+        result = operands[operands.length-1];
     } else if (operator === '+') {
         result = 0;
-        for (j=0; j<operands.length; j++) {
-            result += bogolisp.interpret(operands[j]);
+        for (i=0; i<operands.length; i++) {
+            result += operands[i];
         }
     } else if (operator === 'log') {
-        for (j=0; j<operands.length; j++) {
-            console.log(operands[j]);
+        for (i=0; i<operands.length; i++) {
+            console.log(operands[i]);
         }
     } else {
-        debugger;
         throw new Error("unknown operator: '" + operator + "'");
     }
 
     return result;
+};
+
+/**
+ * Takes a bogolisp script and evaluate it.
+ */
+bogolisp.run = function(script) {
+    return bogolisp.interpret(bogolisp.parse(bogolisp.lex(script)));
 };

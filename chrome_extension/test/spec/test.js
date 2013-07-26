@@ -73,16 +73,37 @@
         it('Can add', function() {
             assert.equal(6, bogolisp.interpret(['+', '1', '2', '3']));
             assert.equal(6, bogolisp.interpret(['eval', ['+', '1', '2', '3']]));
-            assert.equal(6, bogolisp.interpret(['eval', 'fooooo', ['+', '1', '2', '3']]));
+            assert.equal(6, bogolisp.interpret(['eval', ['quote', 'fooooo'], ['+', '1', '2', '3']]));
         });
         it('Can add (2)', function() {
             assert.equal(6, bogolisp.interpret(['+', '1', ['+', '2', '3']]));
         });
         it('Can log', sinon.test(function() {
             var consoleStub = this.stub(console, 'log');
-            assert.equal(undefined, bogolisp.interpret(['log', 'foo', 'bar']));
-            consoleStub.firstCall.calledWith('foo')
-            consoleStub.secondCall.calledWith('bar')
+            assert.equal(undefined, bogolisp.interpret(['log', ['quote', 'foo'], ['quote', 'bar']]));
+            sinon.assert.calledWith(consoleStub, 'foo')
+            sinon.assert.calledWith(consoleStub, 'bar')
+            assert(consoleStub.firstCall.calledWith('foo'));
+            assert(consoleStub.secondCall.calledWith('bar'));
         }));
+        it('Can log and eval', sinon.test(function() {
+            var consoleStub = this.stub(console, 'log');
+            assert.equal(undefined, bogolisp.interpret(['log', ['+', '1', '2']]));
+            sinon.assert.calledWith(consoleStub, 3)
+        }));
+        it('Errors on unknown operators', function() {
+            assert.throw(
+                function(){bogolisp.interpret(['foobar'])},
+                Error,
+                'unknown operator: \'foobar\''
+            );
+        });
+        it('Errors on unknown identifiers', function() {
+            assert.throw(
+                function(){bogolisp.interpret(['+', 'foo'])},
+                Error,
+                'unknown identifier: \'foo\''
+            );
+        });
     });
 })();
