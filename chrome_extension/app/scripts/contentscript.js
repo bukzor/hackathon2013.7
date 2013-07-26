@@ -1,2 +1,2 @@
 'use strict';
-console.log('knock knock knock, where is the lexer? ' + lexer);
+console.log('knock knock knock, where is the bogo, bogo?');

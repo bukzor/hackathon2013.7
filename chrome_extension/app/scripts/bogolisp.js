@@ -1,17 +1,20 @@
 /**
- * This is our lexer namespace.
+ * This is our bogolisp namespace.
  */
-var lexer = {};
+var bogolisp = {};
 
 
+/**
+ * Hey, it's HACKATHON
+ */
 String.prototype.in = function(str) {
     return (str.indexOf(this) !== -1);
 };
 
 /*
- * Convert a string into tokens. That's all.
+ * Convert a string into tokens. That's all. LEX IT!
  */
-lexer.parse = function(str) {
+bogolisp.lex = function(str) {
     var isString = typeof str === 'string';
     if (!isString || (isString && str.length === 0)) {
         // Returns an empty list of tokens on non-string values and empty
@@ -41,4 +44,17 @@ lexer.parse = function(str) {
     }
 
     return tokens;
+};
+
+/**
+ * Takes a list of tokens and return a (abstract?) syntax tree
+ */
+bogolisp.parse = function(tokens) {
+    var i, tree=[];
+
+    for (i=0; i < tokens.length; i++) {
+        // TODO
+    }
+
+    return tree;
 };

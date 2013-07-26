@@ -8,20 +8,26 @@
         });
     });
 
-    describe('Lexer', function() {
+    describe('Bogolisp\'s Lexer', function() {
         it('Returns empty token list for silly values', function() {
-            assert.deepEqual([], lexer.parse(undefined));
-            assert.deepEqual([], lexer.parse(null));
-            assert.deepEqual([], lexer.parse(0));
-            assert.deepEqual([], lexer.parse(''));
-            assert.deepEqual([], lexer.parse(/regex/));
+            assert.deepEqual([], bogolisp.lex(undefined));
+            assert.deepEqual([], bogolisp.lex(null));
+            assert.deepEqual([], bogolisp.lex(0));
+            assert.deepEqual([], bogolisp.lex(''));
+            assert.deepEqual([], bogolisp.lex(/regex/));
         });
 
         it('Tokenizes a print statement', function() {
             assert.deepEqual(
                 ['(', 'print', '(', '+', '1', '2', ')', ')'],
-                lexer.parse('(print (+\t1\n2)     ) \n\t')
+                bogolisp.lex('(print (+\t1\n2)     ) \n\t')
             );
+        });
+    });
+
+    describe('Bogolisp\'s Parse', function() {
+        it('Parses Empty list', function() {
+            assert.deepEqual([], bogolisp.parse([]));
         });
     });
 })();
