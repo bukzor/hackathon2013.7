@@ -52,7 +52,7 @@ bogolisp.lex = function(str) {
 bogolisp.parse = function(tokens) {
     var i,
         frames = [],
-        tree = [];
+        tree = ['eval'];
 
     for (i=0; i < tokens.length; i++) {
         var token = tokens[i];
@@ -69,4 +69,39 @@ bogolisp.parse = function(tokens) {
     }
 
     return tree;
+};
+
+/**
+ * Takes a statement (as a syntax tree) and executes it.
+ */
+bogolisp.interpret = function(statement) {
+    var j, operator, operands, result;
+
+    if (statement.constructor === String) {
+        return Number(statement);
+    }
+
+    operator = statement[0];
+    operands = statement.slice(1);
+    if (operator === undefined) {
+        return undefined;
+    } else if (operator === 'eval') {
+        for (j=0; j<operands.length; j++) {
+            result = bogolisp.interpret(operands[j]);
+        }
+    } else if (operator === 'quote') {
+        result = operands[operands.length-1];
+    } else if (operator === 'list') {
+        result = operands;
+    } else if (operator === '+') {
+        result = 0;
+        for (j=0; j<operands.length; j++) {
+            result += bogolisp.interpret(operands[j]);
+        }
+    } else {
+        debugger;
+        throw new Error("unknown operator: '" + operator + "'");
+    }
+
+    return result;
 };
