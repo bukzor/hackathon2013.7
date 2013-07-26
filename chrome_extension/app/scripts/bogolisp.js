@@ -98,20 +98,25 @@ bogolisp.interpret = function(statement) {
     }
 
     // All other operators interpret their operands.
-    for (i=0; i<operands.length; i++) {
+
+    for (i=0; i < operands.length; i++) {
         operands[i] = bogolisp.interpret(operands[i]);
     }
+
     if (operator === 'eval') {
         result = operands[operands.length-1];
+
     } else if (operator === '+') {
-        result = 0;
-        for (i=0; i<operands.length; i++) {
+        var result = operands[0];
+        for (i=1; i<operands.length; i++) {
             result += operands[i];
         }
+
     } else if (operator === 'log') {
         for (i=0; i<operands.length; i++) {
             console.log(operands[i]);
         }
+
     } else {
         throw new Error("unknown operator: '" + operator + "'");
     }

@@ -74,9 +74,6 @@
             var scope = { x: { z: 3 }, y: 'z' };
             assert.equal(3, bogolisp.interpret(['[]', 'x', 'y'], scope));
         })
-        it('Can concatenate strings', function(){
-            assert.equal('foobar', bogolisp.interpret(['+', ['quote', 'foo'], ['quote', 'bar']], scope));
-        })
         it('Can assign properties by name (dots)', function(){
             var scope = { x: { y: 0 } };
             assert.equal(3, bogolisp.interpret(['=', ['.', 'x', 'y'], '3'], scope));
@@ -122,8 +119,11 @@
             assert.equal(6, bogolisp.interpret(['eval', ['+', '1', '2', '3']]));
             assert.equal(6, bogolisp.interpret(['eval', ['quote', 'fooooo'], ['+', '1', '2', '3']]));
         });
-        it('Can add (2)', function() {
+        it('Can add nested', function() {
             assert.equal(6, bogolisp.interpret(['+', '1', ['+', '2', '3']]));
+        });
+        it('Can concatenate strings', function() {
+            assert.equal('hello world', bogolisp.interpret(['+', ['quote', 'hello '], ['quote', 'world']]));
         });
         it('Can log', sinon.test(function() {
             var consoleStub = this.stub(console, 'log');
