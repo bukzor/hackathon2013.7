@@ -16,5 +16,12 @@
             assert.deepEqual([], lexer.parse(''));
             assert.deepEqual([], lexer.parse(/regex/));
         });
+
+        it('Tokenizes a print statement', function() {
+            assert.deepEqual(
+                ['(', 'print', '(', '+', '1', '2', ')', ')'],
+                lexer.parse('(print (+\t1\n2)     ) \n\t')
+            );
+        });
     });
 })();
