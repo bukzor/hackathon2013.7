@@ -89,7 +89,7 @@ bogolisp.interpret = function(statement) {
 
     operator = statement[0];
     operands = statement.slice(1);
-    if (operator === undefined) {
+    if (operator === undefined || operator === '#') {
         return undefined;
     } else if (operator === 'quote') {
         return operands[operands.length-1];
