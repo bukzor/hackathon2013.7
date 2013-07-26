@@ -2,7 +2,8 @@ hackathon2013.7
 ===============
 
 The goal is to get our own scripting language into the browser.
-We'll use llvm and pnacl.
+We'll use llvm and pnacl. Or at least that's what we thought.  
+We decided to implement lisp in the browser, using JS and a Chrome Extension: http://bukzor.github.io/hackathon2013.7/
 
 Reading:
 --------
