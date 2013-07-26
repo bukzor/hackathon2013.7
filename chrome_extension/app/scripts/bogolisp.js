@@ -87,7 +87,7 @@ bogolisp.Reference.prototype.assign = function(value){
 bogolisp.Reference.prototype.value = function(){
     var result = this.scope && this.scope[this.identifier]
     if ( result === undefined ) {
-        throw new Error("unknown identifier: '" + identifier + "'");
+        throw new Error("unknown identifier: '" + this.identifier + "'");
     } else {
         return result;
     }
@@ -138,7 +138,8 @@ bogolisp.interpret2 = function(statement, scope) {
             if (result === undefined) {
                 throw new Error("Wrong number of arguments to assignment: " + operands.length);
             };
-            result = bogolisp.interpret(result);
+            // TODO: assert that this needs scope
+            result = bogolisp.interpret(result, scope);
             tmp.assign(result);
         };
         return result;
@@ -166,7 +167,7 @@ bogolisp.interpret2 = function(statement, scope) {
 
     // All other operators interpret their operands.
     for (i=0; i < operands.length; i++) {
-        operands[i] = bogolisp.interpret(operands[i]);
+        operands[i] = bogolisp.interpret(operands[i], scope);
     }
 
    
@@ -179,11 +180,34 @@ bogolisp.interpret2 = function(statement, scope) {
             result += operands[i];
         }
 
+    } else if (operator === '*') {
+        var result = operands[0];
+        for (i=1; i<operands.length; i++) {
+            result *= operands[i];
+        }
+
     } else if (operator === 'log') {
         for (i=0; i<operands.length; i++) {
             console.log(operands[i]);
         }
 
+    } else if (scope && operator in scope) {
+        var myfunc = bogolisp.interpret(operator, scope)
+
+        if (myfunc[0] !== 'function') {
+            throw new Error("not callable: '" + operator + "'");
+        }
+
+        var args = myfunc.slice(2); //copy
+        var closure = args.pop();
+        var body = args.pop();
+
+        scope = Object.create(closure);
+        for (i=0; i<args.length; i++) {
+            scope[args[i]] = operands[i];
+        }
+
+        return bogolisp.interpret(body, scope);
     } else {
         throw new Error("unknown operator: '" + operator + "'");
     }
