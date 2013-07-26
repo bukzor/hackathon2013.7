@@ -74,7 +74,7 @@ bogolisp.parse = function(tokens) {
 /**
  * Takes a statement (as a syntax tree) and executes it.
  */
-bogolisp.interpret = function(statement) {
+bogolisp.interpret = function(statement, scope) {
     var i, operator, operands, result;
 
     // Numeric values.
@@ -95,7 +95,19 @@ bogolisp.interpret = function(statement) {
         return operands[operands.length-1];
     } else if (operator === 'list') {
         return operands;
+    } else if (operator === '=') {
+        for (i=0; i<operands.length; i++) {
+            result = operands[i+1];
+            if (result === undefined) {
+                throw new Error("Wrong number of arguments to assignment: " + operands.length);
+            }
+            result = bogolisp.interpret(result);
+            scope[operands[i]] = result;
+            i = i + 1;
+        };
+        return result;
     }
+
 
     // All other operators interpret their operands.
 
@@ -103,6 +115,7 @@ bogolisp.interpret = function(statement) {
         operands[i] = bogolisp.interpret(operands[i]);
     }
 
+    // More operators.
     if (operator === 'eval') {
         result = operands[operands.length-1];
 

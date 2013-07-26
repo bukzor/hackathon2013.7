@@ -63,8 +63,18 @@
         })
         it('Can assign var', function(){
             var scope = {};
-            assert.equal(undefined, bogolisp.interpret(['=', 'foo', 1], scope));
+            assert.equal(2, bogolisp.interpret(['=', 'foo', '1', 'bar', '2'], scope));
             assert.equal(1, scope['foo']);
+            assert.equal(2, scope['bar']);
+        })
+        it('Assignment errors on odd number of args', function(){
+            assert.throw(
+                function(){
+                    bogolisp.interpret(['=', 'foo', '1', 'bar'], {});
+                },
+                Error,
+                "Wrong number of arguments to assignment: 3"
+            );
         })
         it('Can lookup properties by name (dots)', function(){
             var scope = { x: { y: 3 } };
