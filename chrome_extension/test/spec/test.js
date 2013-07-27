@@ -83,6 +83,7 @@
         it('Can lookup properties by value (brackets)', function(){
             var scope = { x: { z: 3 }, y: 'z' };
             assert.equal(3, bogolisp.interpret(['[]', 'x', 'y'], scope));
+            assert.equal(3, bogolisp.interpret(['[]', 'x', ['quote', 'z']], scope));
         });
         it('Can assign properties by name (dots)', function(){
             var scope = { x: { y: 0 } };

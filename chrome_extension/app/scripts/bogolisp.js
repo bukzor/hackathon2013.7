@@ -157,7 +157,7 @@ bogolisp.interpret2 = function(statement, scope) {
         result = bogolisp.Reference(operands[0], scope);
         for (i=1; i<operands.length; i++) {
             result = bogolisp.Reference(
-                    scope[operands[i]],
+                    bogolisp.interpret(operands[i], scope),
                     result.value()
             );
         };
@@ -220,5 +220,5 @@ bogolisp.interpret2 = function(statement, scope) {
  * Takes a bogolisp script and evaluate it.
  */
 bogolisp.eval = function(script) {
-    return bogolisp.interpret(bogolisp.parse(bogolisp.lex(script)));
+    return bogolisp.interpret(bogolisp.parse(bogolisp.lex(script)), window);
 };
