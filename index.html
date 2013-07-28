@@ -15,6 +15,7 @@
             font-size: 1.5em;
         }
         a { color: white; font-weight: bold;}
+        pre { color: white; font-size: 0.8em; }
     </style>
     <h1>Lisp in your browser. Now.</h1>
 
@@ -26,8 +27,19 @@
         <br><br>♥
     </p>
 
-    <script src="foo.bl" type="application/x-bogolisp"></script>
+    <h3>Hello world example, inline</h3>
+    <pre>
+    &lt;script type="application/x-bogolisp"&gt;
+        (log (quote hello) (quote world))
+    &lt;/script&gt;
+    </pre>
     <script type="application/x-bogolisp">
         (log (quote hello) (quote world))
     </script>
+
+    <h3>More complex, sourced</h3>
+    <pre>
+    &lt;script src="example.bl" type="application/x-bogolisp"&gt;&lt;/script&gt;
+    </pre>
+    <script src="example.bl" type="application/x-bogolisp"></script>
 </html>

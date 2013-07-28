@@ -1,0 +1,4 @@
+(# Below are example of this you can do. And this is a comment)
+(log
+    (+ (quote 8*5+2-is->) (+ 2 (* 8 5)))
+    (+ (quote document-title-is->) (quote ') (. document title) (quote ')))
